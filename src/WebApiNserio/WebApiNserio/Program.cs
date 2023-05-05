@@ -20,6 +20,11 @@ builder.Services.AddTransient<IShippersRepository, ShippersRepository>();
 builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
 
 builder.Services.Configure<InfraestructureSettings>(builder.Configuration);
+//services cors
+builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
 
 
 var app = builder.Build();
@@ -36,5 +41,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseCors("corsapp");
 app.Run();
